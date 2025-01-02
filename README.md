@@ -92,10 +92,9 @@ If you use this work, please cite our paper:
 ---
 
 ## 👩‍💻 Contributors
-- [Your Name](https://github.com/your-profile)
-- [Co-author Name](https://github.com/co-author-profile)
+- Abbas Saleminezhad
 
 ---
 
 ## 📧 Contact
-For questions or collaborations, reach out to **[your_email@example.com](mailto:your_email@example.com)**.
+For questions or collaborations, reach out to **[abbas.saleminezhad@gmail.com](mailto:your_email@example.com)**.
