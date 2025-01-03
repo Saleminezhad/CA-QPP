@@ -23,6 +23,9 @@ The QPP task aims to estimate the retrieval effectiveness of a query \(q\) using
 ## 🛠️ Implementation Details
 
 ### Datasets
+we train our model on:
+- **MS MARCO V1 Passage Collection**
+
 We evaluate on:
 - **TREC DL 2019**
 - **TREC DL 2020**
@@ -38,11 +41,11 @@ We evaluate on:
 
 ### Metrics
 We evaluate QPP performance using correlation metrics:
-- **Pearson’s \( \rho \)**
-- **Spearman’s \( \rho \)**
-- **Kendall’s \( \tau \)**
+- **Pearson’s  $\rho$**
+- **Spearman’s  $\rho$**
+- **Kendall’s  $\tau$**
 
-Results will be added after experiments.
+Results will be shown on the experiment section of the paper.
 
 ---
 
