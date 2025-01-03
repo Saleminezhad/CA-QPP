@@ -87,7 +87,7 @@ To compute term weight labels, employ the ` doc_train_term_label_generator.py ` 
 
 export label_mthod=QrelMethod # QueryMethod or QrelMethod
 
-python doc_train_term_label_generator.py --input QueryClassification/data/diamond.tsv \
+python Query_Pair_Constructor.py --input QueryClassification/data/diamond.tsv \
     --alpha 0.25 \
     --datapath QueryClassification/data/ \
     --output QueryClassification/data/doc_label \
@@ -102,7 +102,7 @@ Code: we adapted [DeepCT](https://github.com/AdeDZY/DeepCT) methodology, However
 for training run this code.
 ```bash 
 
-python deepct_train_doc.py --data_dir_train QueryClassification/data/$DOC_PATH_DATA \
+python QueryClassification_train_doc.py --data_dir_train QueryClassification/data/$DOC_PATH_DATA \
     --label_method $label_mthod \
     --max_seq_length_train 95 \
     --train_batch_size 16 \
@@ -121,14 +121,14 @@ the classifed terms sets will be acquired by this code for both query and docume
 ```bash
 
 
-python deepct_test_doc.py  --output_dir_train QueryClassification/outputs/MODEL_DOC$label_mthod/ \
+python QueryClassification_test_doc.py  --output_dir_train QueryClassification/outputs/MODEL_DOC$label_mthod/ \
     --predictions_dir_test  QueryClassification/predictions/MODEL_DOC$label_mthod/ \
     --max_seq_length_test 128 \
     --train_batch_size 16 \
     --num_train_epochs 12 \
     --gpu_device 0
 
-python deepct_test.py --output_dir_train QueryClassification/outputs/MODEL_DOC$label_mthod/ \
+python QueryClassification_test.py --output_dir_train QueryClassification/outputs/MODEL_DOC$label_mthod/ \
     --predictions_dir_test QueryClassification/predictions/Query_MODEL_DOC$label_mthod/ \
     --max_seq_length_test 15 \
     --train_batch_size 16 \
@@ -138,13 +138,10 @@ python deepct_test.py --output_dir_train QueryClassification/outputs/MODEL_DOC$l
 
 ```
 
-TEST_DATA_FILE: a tsv file ` (docid \t doc_content) ` of the entire collection that you want ot compute weight. Here, we use the [MS MARCO queries](https://drive.google.com/file/d/1kiwbqlwQDSzO2BZFpcNs5Bsa1RgbAoPo/view?usp=sharing) to compute thier term weights, therefore, these term weights will be considered as the input for the query performance prediction part.
-
-$OUTPUT_DIR: output folder for testing. computed term weights will be stored here.
 
 
 ### Constructing Query Variations: 
-Generate promotive and demotive variations using term weighting.longside the modifed query we include the performance of the query and feed it into our model.
+Generate promotive and demotive variations using term weighting alongside the modifed query we include the performance of the query and feed it into our model.
 ```
 python doc_weighted_term_frequency_bertqpp.py --input QueryClassification/predictions/$MODEL_DOC$label_mthod/ \
     --input_query QueryClassification/predictions/$MODEL_QUERY$label_mthod/ \
@@ -161,13 +158,13 @@ Install dependencies for the performance prediction section:
 pip install -r requirements_PP.txt
 ```
 
-To train and test the model with your specific metric, use the `expansion_creat_train_test_pkl_files.py` script. This script facilitates learning the map@20 of BM25 retrieval on the MSMARCO training set. In our experiments, we utilized different models as cross encoder, and the trained model will be saved in the `BERTQPP/models/` directory.
+To train and test the model with your specific metric, use the `expansion_creat_train_test_pkl_files.py` script. This script facilitates learning the map@20 of BM25 retrieval on the MSMARCO training set. In our experiments, we utilized different models as cross encoder, and the trained model will be saved in the `PerformancePrediction/models/` directory.
 ```bash
 
 export llm_model=deberta  # deberta pr bert or minilm
 export MODEL=qpp_"$llm_model"_m"$m"_B"$B_SIZE"_E"$E_NUMBER
 
-python expansion_creat_train_test_pkl_files.py --input_doc QueryClassification/predictions/$MODEL_DOC$label_mthod/ \
+python expansion_pkl_files.py --input_doc QueryClassification/predictions/$MODEL_DOC$label_mthod/ \
     --input_query QueryClassification/predictions/$MODEL_QUERY$label_mthod/ \
     --output $MODEL \
     --m 50 \
